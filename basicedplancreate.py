@@ -43,7 +43,17 @@ def is_course_selected(course_name):
 
 def select_random_ge_course():
     update_table_limits()
-    # Filter the ge_tables based on the custom conditions
+    
+    # Prioritize selecting ENGL 101 if not already taken
+    cursor.execute("SELECT * FROM a2_written_communication WHERE course_name = 'ENGL 101' AND selected = 0")
+    engl_101 = cursor.fetchone()
+    
+    if engl_101:
+        cursor.execute("UPDATE a2_written_communication SET selected = 1 WHERE id = ?", (engl_101[0],))
+        conn.commit()
+        return engl_101  # Return ENGL 101 first before selecting other GE courses
+    
+    # Proceed with random GE course selection if ENGL 101 is already taken
     filtered_ge_tables = [table for table in ge_tables if count_selected_courses(table) < table_limits.get(table, 2)]
 
     if not filtered_ge_tables:
@@ -58,11 +68,11 @@ def select_random_ge_course():
 
     random_course = random.choice(available_courses)
 
-    # Update the selected status for the chosen course
     cursor.execute(f"UPDATE {selected_table} SET selected = 1 WHERE id = ?", (random_course[0],))
     conn.commit()
 
     return random_course
+
 
 def select_major_courses(specific_course=None):
     # Define the sequential list of first major courses
