@@ -31,8 +31,7 @@ conn.execute('''CREATE TABLE major_courses
              course_name TEXT NOT NULL,
              course_description TEXT NOT NULL,
              course_units TEXT NOT NULL,
-             course_prereqs TEXT NOT NULL,
-             selected INTEGER DEFAULT 0
+             course_prereqs TEXT NOT NULL
              );''')
 
 # Loop through the table data and insert rows into the SQL table
@@ -45,8 +44,8 @@ while i < len(table_data)-2:
         course_description = table_data[i+1].get_text().replace('\xa0', " ")
         course_units = table_data[i+2].get_text()
         course_prereqs = prereqs[j]
-        conn.execute("INSERT INTO major_courses (course_name, course_description, course_units, course_prereqs, selected) \
-              VALUES (?, ?, ?, ?, ?);", (course_name, course_description, course_units, course_prereqs, 0))
+        conn.execute("INSERT INTO major_courses (course_name, course_description, course_units, course_prereqs) \
+              VALUES (?, ?, ?, ?);", (course_name, course_description, course_units, course_prereqs))
         i += 3
         j += 1
     else:
@@ -56,8 +55,8 @@ while i < len(table_data)-2:
         course_description = table_data[i+1].get_text()
         course_units = table_data[i-1].get_text()
         course_prereqs = prereqs[j]
-        conn.execute("INSERT INTO major_courses (course_name, course_description, course_units, course_prereqs, selected) \
-              VALUES (?, ?, ?, ?, ?);", (course_name, course_description, course_units, course_prereqs, 0))
+        conn.execute("INSERT INTO major_courses (course_name, course_description, course_units, course_prereqs) \
+              VALUES (?, ?, ?, ?);", (course_name, course_description, course_units, course_prereqs))
         i += 2
         j += 1
 
