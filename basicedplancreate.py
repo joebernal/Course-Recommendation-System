@@ -2,10 +2,8 @@ import sqlite3
 import random
 
 # Connect to your SQLite database
-conn = sqlite3.connect('prereqtest.db')
+conn = sqlite3.connect('csdegreecourses.db')
 cursor = conn.cursor()
-print("Test")
-print("Test 2")
 
 def reset_selected_values():
     for table_name in table_names:
@@ -134,9 +132,9 @@ table_limits = {
     'a3_critical_thinking': 1,
     'c1_arts': 2,
     'c2_humanities': 2,
-    'area_d_social_political': 2,
-    'area_e_lifelong_understanding': 1,
-    'area_f_ethnic_studies': 1
+    'd_social_political': 2,
+    'e_lifelong_understanding': 1,
+    'f_ethnic_studies': 1
 }
 
 # Reset selected values for all tables

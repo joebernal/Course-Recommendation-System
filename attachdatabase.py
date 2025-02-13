@@ -1,11 +1,11 @@
 import sqlite3
 
 # Open connection to main database and attach second database
-conn = sqlite3.connect('prereqtest.db')
-conn.execute("ATTACH DATABASE 'prereqtestge.db' AS db2")
+conn = sqlite3.connect('csdegreecourses.db')
+conn.execute("ATTACH DATABASE 'csugecourses.db' AS db2")
 
 # Get list of tables from second database
-cursor = conn.execute("SELECT name FROM db2.sqlite_master WHERE type='table'")
+cursor = conn.execute("SELECT name FROM db2.sqlite_master WHERE type='table' AND name != 'sqlite_sequence'")
 table_names = [t[0] for t in cursor.fetchall()]
 
 # Copy tables from second database to main database
