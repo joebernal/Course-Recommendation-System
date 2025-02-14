@@ -10,25 +10,25 @@
 - [Future Enhancements](#future-enhancements)
 - [License](#license)
 
-Overview
+## Overview
 
 The Course Recommendation System is designed for students at Citrus College pursuing an Associate Degree for Transfer (AD-T) in Computer Science. It helps students create personalized education plans based on major and general education (GE) requirements. The system dynamically selects courses while tracking previously selected courses to avoid duplication. It integrates multiple SQLite databases to manage course data efficiently.
 
-Features
+## Features
 
-Flexible Course Load: Accommodates full-time, part-time, and optional winter and summer session preferences.
+- **Flexible Course Load**: Accommodates full-time, part-time, and optional winter and summer session preferences.
 
-Automatic Course Selection: Recommends courses for a structured degree plan.
+- **Automatic Course Selection**: Recommends courses for a structured degree plan.
 
-Handles Multiple Databases: Merges major and GE courses from separate databases.
+- **Handles Multiple Databases**: Merges major and GE courses from separate databases.
 
-Resets Selections: Ensures a fresh start for every new plan.
+- **Resets Selections**: Ensures a fresh start for every new plan.
 
-Semester-Based Planning: Assigns courses based on semesters (Fall, Winter, Spring, Summer).
+- **Semester-Based Planning**: Assigns courses based on semesters (Fall, Winter, Spring, Summer).
 
 ## Sample Output
 
-![Sample Output](sample_output.png)
+<img src="sample_output.png" alt="Sample Output" width="400" height="auto">
 
 ## File Structure
 
