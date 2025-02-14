@@ -23,4 +23,3 @@ for table_name in csdegreecourses_tables:
 # Commit and close
 conn.commit()
 conn.close()
-
