@@ -28,7 +28,7 @@ The Course Recommendation System is designed for students at Citrus College purs
 
 ## Sample Output
 
-<img src="sample_output.png" alt="Sample Output" width="400" height="auto">
+<img src="/web/img/sample_output.png" alt="Sample Output" width="400" height="auto">
 
 ## File Structure
 
