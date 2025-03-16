@@ -4,7 +4,7 @@
 
 - [Overview](#overview)
 - [Features](#features)
-- [Sample Output](#sample-output)
+- [Activity Diagram](#activity-diagram)
 - [File Structure](#file-structure)
 - [Installation](#installation)
 - [Future Enhancements](#future-enhancements)
@@ -12,66 +12,68 @@
 
 ## Overview
 
-The Course Recommendation System is designed for students at Citrus College pursuing an Associate Degree for Transfer (AD-T) in Computer Science. It helps students create personalized education plans based on major and general education (GE) requirements. The system dynamically selects courses while tracking previously selected courses to avoid duplication. It integrates multiple SQLite databases to manage course data efficiently.
+The Course Recommendation System is designed for students at Citrus College pursuing an Associate Degree for Transfer (AD-T) in Computer Science. It helps students create personalized education plans based on major and general education (GE) requirements. The system dynamically selects courses while tracking previously selected courses to avoid duplication. The project is transitioning from a SQLite-based terminal application to a web-based system using MySQL and Flask.
 
 ## Features
 
 - **Flexible Course Load**: Accommodates full-time, part-time, and optional winter and summer session preferences.
-
 - **Automatic Course Selection**: Recommends courses for a structured degree plan.
-
-- **Handles Multiple Databases**: Merges major and GE courses from separate databases.
-
-- **Resets Selections**: Ensures a fresh start for every new plan.
-
+- **Handles Multiple Databases**: Supports MySQL for scalable course storage.
 - **Semester-Based Planning**: Assigns courses based on semesters (Fall, Winter, Spring, Summer).
+- **Google Authentication**: Allows users to log in with Google accounts.
 
-## Sample Output
+## Activity Diagram
 
-<img src="/web/img/sample_output.png" alt="Sample Output" width="400" height="auto">
+<img src="web/img/Activity Diagram Design.png" alt="Activity Diagram" width="1000">
 
 ## File Structure
 
-### **Python Scripts**
-
-- **`addselectedcolumn.py`**
-
-  - Adds a `selected` column to all tables in `csdegreecourses.db` to track chosen courses.
-
-- **`attachdatabase.py`**
-
-  - Attaches `csugecourses.db` to `csdegreecourses.db` and merges tables to maintain a single database.
-
-- **`basicedplancreate.py`**
-
-  - Main script to generate an education plan based on available courses and user preferences.
-  - Implements course selection, semester scheduling, and prioritization.
-
-- **`csmajorcourses.py`**
-
-  - Handles course selection for computer science major requirements.
-
-- **`csugecourses.py`**
-
-  - Scrapes and stores GE course data from the Citrus College website.
-
-- **`prereqfunction.py`**
-  - Uses Selenium and BeautifulSoup to scrape course prerequisite information.
-
-### **Databases**
-
-- **`csdegreecourses.db`**: Stores major and GE courses.
-- **`csmajorcourses.db`**: Contains computer science-specific courses.
-- **`csugecourses.db`**: Stores general education courses.
+```
+Course-Recommendation-System/
+├── backend/                 # Flask backend API
+│   ├── app.py               # Main Flask API script
+│   ├── main.js              # Firebase authentication handling
+│   ├── .env.example         # Example environment file for Firebase keys
+│   └── requirements.txt     # Python dependencies
+│
+├── mysql_version/           # MySQL database schema
+│   └── database_v1.0.0.sql  # SQL script to create MySQL tables
+│
+├── sqlite_version/          # Legacy SQLite database & scripts
+│   ├── py/                  # Python scripts for SQLite version
+│   │   ├── addselectedcolumn.py # Adds `selected` column for tracking
+│   │   ├── attachdatabase.py    # Merges multiple SQLite databases
+│   │   ├── basicedplancreate.py # Generates course plans dynamically
+│   │   ├── csmajorcourses.py    # Handles CS major course selection
+│   │   ├── csugecourses.py      # Scrapes and stores GE course data
+│   │   ├── prereqfunction.py    # Scrapes prerequisite information
+│   ├── db/                  # SQLite database files
+│   │   ├── csdegreecourses.db   # Stores major and GE courses
+│   │   ├── csmajorcourses.db    # Contains CS-specific courses
+│   │   ├── csugecourses.db      # Stores general education courses
+│
+├── web/                     # Web application files
+│   ├── index.html           # Homepage with project info and login/register button redirects
+│   ├── about.html           # About page with project and team information
+│   ├── login.html           # Login page for user authentication
+│   ├── img/                 # Image assets for the website
+│   │   ├── activity-diagram.png  # Website activity flowchart
+│   │   ├── logo.png              # Site logo
+│   │   └── sample_output.png     # Example course plan output
+│
+├── .gitignore               # Ignore unnecessary files in Git
+├── Procfile                 # Deployment configuration for Render
+└── README.md                # This README file
+```
 
 ## Installation
 
 ### Prerequisites
 
 - Python 3.x
-- SQLite3
-- Selenium
-- BeautifulSoup4
+- MySQL Server
+- Flask
+- Firebase Authentication for Google Login
 
 ### Setup
 
@@ -80,30 +82,40 @@ The Course Recommendation System is designed for students at Citrus College purs
    git clone https://github.com/joebernal/Course-Recommendation-System
    cd course-recommendation-system
    ```
-2. **Install Dependencies**
-   ```sh
-   pip install -r requirements.txt
-   ```
-3. **Run Scripts**
-   - To create the database and add the `selected` column:
+
+2. **Set Up MySQL Database**
+   - Start MySQL Server
+   - Run the MySQL schema script
      ```sh
-     python addselectedcolumn.py
+     mysql -u root -p < mysql_version/database_v1.0.0.sql
      ```
-   - To attach databases:
+
+3. **Set Up Backend**
+   - Navigate to the backend folder
      ```sh
-     python attachdatabase.py
+     cd backend
      ```
-   - To generate a course plan:
+   - Create a `.env` file using `.env.example` as a reference
+   - Install dependencies
      ```sh
-     python basicedplancreate.py
+     pip install -r requirements.txt
      ```
+   - Run Flask API
+     ```sh
+     python app.py
+     ```
+
+4. **Set Up Frontend**
+   - Open `web/index.html` in a browser.
 
 ## Future Enhancements
 
+- **Backend API**: Fetch course plans, completed courses, and available courses via Flask.
 - **Support for More STEM Majors**: Expand to include additional STEM degrees offered at Citrus College.
-- **Web Interface**: Provide a UI for students to generate and customize plans.
-- **User Authentication**: Allow users to log in and save multiple plans.
-- **Cloud Database**: Migrate from SQLite to MySQL for scalability.
+- **Enhanced UI**: Improve user experience with modern UI components.
+- **Cloud Deployment**: Deploy the backend API and database to a cloud provider.
+- **User-Generated Course Plans**: Allow students to manually create custom course plans.
+- **User Profile Management**: Track completed courses and create multiple education plans.
 
 ## License
 
