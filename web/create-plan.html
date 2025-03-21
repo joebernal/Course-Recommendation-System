@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Plan | Course Planner</title>
+</head>
+<body>
+    <h1>Create Course Plan</h1>
+    <form id="create-plan-form">
+        <div>
+            <label for="degree">Select Degree/Major:</label>
+            <select id="degree" name="degree">
+                <option value="" disabled selected>Select</option>
+                <option value="Course1">Example1</option>
+                <option value="Course2">Example2</option>
+                <option value="Course3">Example3</option>
+                <option value="Course4">Example4</option>
+            </select>
+        </div>
+        <div>
+            <label for="semester">Choose Semester:</label>
+            <select id="semester" name="semester">
+                <option value="" disabled selected>Select</option>
+                <option value="fall">Fall</option>
+                <option value="spring">Spring</option>
+                <option value="winter">Winter</option>
+                <option value="summer">Summer</option>
+            </select>
+        </div>
+        <div>
+            <legend>Select Study Type:</legend>
+            <label>
+                <input type="radio" name="study-type" value="full-time" checked> Full-time
+            </label>
+            <label>
+                <input type="radio" name="study-type" value="part-time"> Part-time
+            </label>
+        </div>
+        <button type="submit">Generate Plan</button>
+    </form>
+
+    <script>
+        document.getElementById('create-plan-form').onsubmit = function(event) {
+            event.preventDefault();
+           
+            window.location.href = '/web/view-plan.html';
+        }
+    </script>
+</body>
+</html>
