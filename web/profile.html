@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | CS Course Planner</title>
+</head>
+<body>
+    <h1>Profile</h1>
+    <a href="/web/create-plan.html" class="button-link">Create A Plan</a>
+    <a href="/web/view-plan.html" class="button-link">View My Plan</a>
+    <form id="profile-form">
+        <fieldset>
+            <legend>Completed Courses</legend>
+            <label for="courses">Select Course:</label>
+            <select id="courses" name="courses">
+                <option value="" disabled selected>Select course</option>
+                <option value="Course1">Example1</option>
+                <option value="Course2">Example2</option>
+                <option value="Course3">Example3</option>
+                <option value="Course4">Example4</option>
+            </select>
+            <button type="button">Add Course</button>
+        </fieldset>
+        <button type="submit">Save & Continue</button>
+    </form>
+    <script>
+        document.getElementById("profile-form").onsubmit = function(event) {
+            event.preventDefault();
+            
+            window.location.href = "/web/dashboard.html";
+        }
+    </script>
+</body>
+</html>
