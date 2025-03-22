@@ -7,9 +7,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-auth.js";
 
 // Fetch Firebase config from Flask API
-fetch(
-  "https://course-recommendation-system-8lj7.onrender.com/api/firebase-config"
-)
+fetch("http://127.0.0.1:5001/api/auth/firebase-config")
   .then((response) => response.json())
   .then((firebaseConfig) => {
     // Initialize Firebase
