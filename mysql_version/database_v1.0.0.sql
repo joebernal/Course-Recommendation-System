@@ -25,7 +25,8 @@ SET FOREIGN_KEY_CHECKS = 1;
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
-    password_hash VARCHAR(255) NOT NULL,
+    password_hash VARCHAR(255) NULL,  -- Nullable for Google accounts
+    google_uid VARCHAR(255) NULL UNIQUE,  -- Store Google UID for authentication
     full_name VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
