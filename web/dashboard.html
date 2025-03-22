@@ -3,18 +3,46 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CS Course Planner | Dashboard</title>
+    <title>Owl Plan | Dashboard</title>
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
       href="/web/img/favicon-16x16.png"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
     <script type="module" src="/backend/main.js"></script>
   </head>
 
   <body>
-    <h1 id="welcome-msg">Welcome to your dashboard!</h1>
-    <button id="google-signout-btn" class="button">Sign Out</button>
+    <header class="topnav">
+      <div class="wrapper topnav__wrapper">
+        <a href="/web/dashboard.html" class="topnav__homelink">
+          <img
+            src="/web/img/logo-owl-plan.png"
+            alt="Course Planner Homepage"
+            class="topnav__logo"
+            width="128"
+            height="36"
+          />
+        </a>
+        <nav>
+          <ul class="topnav__links">
+            <li class="topnav__item">
+              <a href="/web/about.html" class="topnav__link">About Us</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="wrapper">
+      <h1 id="welcome-msg">Welcome to your dashboard!</h1>
+      <button id="google-signout-btn" class="button">Sign Out</button>
+    </div>
   </body>
 </html>
