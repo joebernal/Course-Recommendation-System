@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from db_operations import query_db
+from routes.db_operations import query_db
 
 course_bp = Blueprint("course_bp", __name__)
 
