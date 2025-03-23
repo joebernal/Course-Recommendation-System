@@ -90,23 +90,66 @@ Course-Recommendation-System/
      mysql -u root -p < mysql_version/database_v1.0.0.sql
      ```
 
-3. **Set Up Backend**
-   - Navigate to the backend folder
-     ```sh
-     cd backend
-     ```
-   - Create a `.env` file using `.env.example` as a reference
-   - Install dependencies
-     ```sh
-     pip install -r requirements.txt
-     ```
-   - Run Flask API
-     ```sh
-     python app.py
+### Set Up Backend
+
+1. **Create a virtual environment** (only needed the first time)
+   ```bash
+   python3 -m venv venv
+   ```
+
+3. **Activate the virtual environment**
+
+   - On **macOS/Linux**:
+     ```bash
+     source venv/bin/activate
      ```
 
-4. **Set Up Frontend**
-   - Open `web/index.html` in a browser.
+   - On **Windows**:
+     ```cmd
+     venv\Scripts\activate
+     ```
+
+4. **Create a `.env` file using `.env.example` as a reference**
+   ```bash
+   cp .env.example .env  # Or manually create it
+   ```
+
+5. After activation, your terminal should show something like this:
+
+```bash
+(venv) user@machine:~/project$
+```
+This means the virtual environment is active.
+
+6. **Install dependencies (inside the virtual environment)**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+7. **Run the Flask API**
+   ```bash
+   python backend/app.py
+   ```
+
+8. **(Optional) Exit the virtual environment**
+   ```bash
+   deactivate
+   ```
+
+---
+
+### Set Up Frontend
+
+To view the frontend in your browser:
+
+1. Open VS Code and navigate to the project folder.
+2. Locate the file: `web/index.html`.
+3. **Right-click on `index.html`** and select **"Open with Live Server"** (make sure you have the [Live Server extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) installed).
+4. A new browser tab should open automatically with your frontend running on something like `http://127.0.0.1:5501/web/index.html`.
+
+> If Live Server doesn’t open, you can manually go to that URL in your browser or click "Go Live" in the bottom-right of VS Code.
+
+---
 
 ## Future Enhancements
 
