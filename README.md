@@ -33,7 +33,7 @@ Course-Recommendation-System/
 ├── backend/                 # Flask backend API
 │   ├── app.py               # Main Flask API script
 │   ├── main.js              # Firebase authentication handling
-│   ├── .env.example         # Example environment file for Firebase keys
+│   ├── .env.example         # Example environment file for Firebase keys and DB credentials
 │   └── requirements.txt     # Python dependencies
 │
 ├── mysql_version/           # MySQL database schema
