@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
         data.forEach((course) => {
           const option = document.createElement("option");
           option.value = course.id;
-          option.textContent = course.course_name;
+          option.textContent = course.course_code;
           selectElement.appendChild(option);
         });
       })
