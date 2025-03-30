@@ -25,7 +25,7 @@ fetch("http://127.0.0.1:5001/api/auth/firebase-config")
             const user = result.user;
 
             // Send data to backend
-            fetch("http://127.0.0.1:5001/api/users", {
+            fetch("http://127.0.0.1:5001/api/users/", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -43,9 +43,9 @@ fetch("http://127.0.0.1:5001/api/auth/firebase-config")
               .catch((error) => {
                 console.error("Error adding user to backend:", error);
               });
-            
+
             alert("Welcome " + user.displayName);
-            //window.location.href = "/web/dashboard.html";
+            window.location.href = "/web/dashboard.html";
           })
           .catch((error) => {
             console.error("Error during login:", error);

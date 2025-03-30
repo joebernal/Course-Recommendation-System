@@ -9,7 +9,8 @@ from routes.user_routes import user_bp
 from routes.major_routes import major_bp
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for frontend requests
+CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
+
 
 # Register Blueprints (Routes)
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
