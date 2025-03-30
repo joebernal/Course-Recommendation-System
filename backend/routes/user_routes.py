@@ -13,4 +13,8 @@ def add_user():
     
     query_db("INSERT INTO users (email, google_uid, full_name) VALUES (%s, %s, %s)", 
             (data["email"], data["google_uid"], data["full_name"]))
+<<<<<<< HEAD
     return jsonify({"message": "User added"}), 201
+=======
+    return jsonify({"message": "User added"}), 201
+>>>>>>> 3eb3d787e72a42b1245dedf3eab2e3ae5c79fa6e
