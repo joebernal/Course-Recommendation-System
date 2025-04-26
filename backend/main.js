@@ -24,6 +24,13 @@ fetch("http://127.0.0.1:5001/api/auth/firebase-config")
           .then((result) => {
             const user = result.user;
 
+            // Save user info to localStorage
+            localStorage.setItem("user", JSON.stringify({
+              email: user.email,
+              google_uid: user.uid,
+              full_name: user.displayName,
+            }));
+
             // Send data to backend
             fetch("http://127.0.0.1:5001/api/users/", {
               method: "POST",
