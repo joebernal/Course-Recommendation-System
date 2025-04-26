@@ -1,19 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Plan | CS Course Planner</title>
-</head>
-<body>
-    <h1>Course Plan</h1>
-    <button class="save-button" onclick="savePlan()">Save Plan</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Owl Plan | Dashboard</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/web/img/favicon-16x16.png"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="/backend/main.js"></script>
+  </head>
+
+  <body>
+    <header class="topnav">
+      <div class="wrapper topnav__wrapper">
+        <a href="/web/dashboard.html" class="topnav__homelink">
+          <img
+            src="/web/img/logo-owl-plan.png"
+            alt="Course Planner Homepage"
+            class="topnav__logo"
+            width="128"
+            height="36"
+          />
+        </a>
+        <nav>
+          <ul class="topnav__links">
+            <li class="topnav__item">
+              <a href="/web/create-plan.html" class="topnav__link"
+                >Create Plan</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrapper">
+      <h1>Course Plan</h1>
+
+      <div id="plan-container"></div>
+    </main>
 
     <script>
-        function savePlan() {
-            alert("Plan saved!");
-            window.location.href = "/web/dashboard.html";
+      document.addEventListener("DOMContentLoaded", async () => {
+        const planId = 50; // ⚡ Replace this with dynamic way later (or read from URL params)
+
+        try {
+          const response = await fetch(
+            `http://127.0.0.1:5001/api/plans/${planId}/courses`
+          );
+          const courses = await response.json();
+
+          const container = document.getElementById("plan-container");
+          if (!container) return;
+
+          let currentSemester = "";
+          let currentYear = "";
+          let semesterBlock = null;
+
+          courses.forEach((course) => {
+            const {
+              course_code,
+              course_name,
+              course_units,
+              ge_category_code,
+              semester,
+              year,
+            } = course;
+
+            if (semester !== currentSemester || year !== currentYear) {
+              // New semester block
+              semesterBlock = document.createElement("div");
+              semesterBlock.classList.add("semester");
+              semesterBlock.innerHTML = `<h2>${semester} ${year}</h2>`;
+              container.appendChild(semesterBlock);
+
+              currentSemester = semester;
+              currentYear = year;
+            }
+
+            const courseEntry = document.createElement("p");
+            courseEntry.textContent = `${course_code} - ${course_name} (${course_units} units) (${ge_category_code})`;
+            semesterBlock.appendChild(courseEntry);
+          });
+        } catch (error) {
+          console.error("Error loading plan:", error);
         }
+      });
     </script>
-</body>
+  </body>
 </html>

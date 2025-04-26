@@ -65,9 +65,6 @@ a:active {
   margin-inline: auto;
 }
 
-.topnav {
-  border-bottom: 1px solid black;
-}
 .topnav__wrapper {
   display: flex;
   justify-content: space-between;
@@ -139,18 +136,22 @@ a:active {
   padding-block: 30px 60px;
 }
 
-@media (min-width: 56.25em) {
-  .hero__wrapper {
-    flex-direction: row-reverse;
-    padding-block: 40px 80px;
-  }
-}
 .hero__image {
-  width: 82%;
-  max-width: 300px;
+  width: 72%;
+  max-width: 483px;
   margin-block-end: 2.5rem;
 }
 
 .hero__button:first-of-type {
   margin-inline-end: 20px;
+}
+
+@media (min-width: 56.25em) {
+  .hero__wrapper {
+    flex-direction: row-reverse;
+    padding-block: 40px 80px;
+  }
+  .hero__image {
+    width: 99.9%;
+  }
 }
