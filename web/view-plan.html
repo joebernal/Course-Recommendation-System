@@ -50,7 +50,13 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", async () => {
-        const planId = 1; // ⚡ Replace this with dynamic way later (or read from URL params)
+        const urlParams = new URLSearchParams(window.location.search);
+        const planId = urlParams.get("plan_id");
+
+        if (!planId) {
+          document.getElementById("plan-container").innerHTML = "<p>Invalid plan ID.</p>";
+          return;
+        }
 
         try {
           const response = await fetch(
