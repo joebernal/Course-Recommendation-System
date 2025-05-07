@@ -21,3 +21,12 @@ def get_plan_courses(plan_id):
     """
     courses = query_db(query, (plan_id,))
     return jsonify(courses)
+
+@plan_bp.route('/user/<int:user_id>', methods=['GET'])
+def get_user_plans(user_id):
+    """
+    Retrieve all course plans for a given user_id.
+    """
+    query = "SELECT id, plan_name FROM course_plans WHERE user_id = %s"
+    plans = query_db(query, (user_id,))
+    return jsonify(plans)
