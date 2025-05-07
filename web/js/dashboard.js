@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
         div.innerHTML = `
           <h3>${plan.plan_name}</h3>
           <a href="/web/view-plan.html?plan_id=${plan.id}">
-            <button class="button">View Plan</button>
+            <button class="button secondary">View Plan</button>
           </a>
         `;
         container.appendChild(div);

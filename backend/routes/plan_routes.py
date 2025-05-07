@@ -55,7 +55,7 @@ def create_plan():
 
     # Create the plan and generate course plan
     from create_plan import generate_plan, create_course_plan
-    plan_name = f"{major_name} Plan starting {start_semester}"
+    plan_name = f"{major_name} Plan {enrollment_status.capitalize()}, starts {start_semester} {start_year}"
     plan_id = create_course_plan(user_id, plan_name)
 
     generate_plan(user_id, major_id, major_name, major_acronym, start_semester, start_year, plan_id, include_us_am=False)

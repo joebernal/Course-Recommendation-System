@@ -61,15 +61,21 @@
 
         try {
           const response = await fetch(
-            `http://127.0.0.1:5001/api/plans/${planId}/courses` /*,
-            {
-              credentials: "include",
-            } */
+            `http://127.0.0.1:5001/api/plans/${planId}/courses`
           );
           const courses = await response.json();
 
           const container = document.getElementById("plan-container");
           if (!container) return;
+
+          const semesterOrder = ["Winter", "Spring", "Summer", "Fall"];
+          courses.sort((a, b) => {
+            if (a.year !== b.year) return a.year - b.year;
+            return (
+              semesterOrder.indexOf(a.semester) -
+              semesterOrder.indexOf(b.semester)
+            );
+          });
 
           let currentSemester = "";
           let currentYear = "";

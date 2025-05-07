@@ -472,7 +472,7 @@ if __name__ == '__main__':
     include_us_am = False             # Default setting for Associate's plans.
 
     # Create a new course plan record first so that plan_courses rows reference a valid plan.
-    plan_name = f"{major_name} Plan starting {start_semester} {start_year}"
+    plan_name = f"{major_name} Plan, starts {start_semester} {start_year}"
     plan_id = create_course_plan(user_id, plan_name)
     if plan_id:
         print("Created course plan with plan_id:", plan_id)
