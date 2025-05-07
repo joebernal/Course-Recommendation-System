@@ -50,11 +50,21 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", async () => {
-        const planId = 1; // ⚡ Replace this with dynamic way later (or read from URL params)
+        const urlParams = new URLSearchParams(window.location.search);
+        const planId = urlParams.get("plan_id");
+
+        if (!planId) {
+          document.getElementById("plan-container").innerHTML =
+            "<p>No plan ID provided.</p>";
+          return;
+        }
 
         try {
           const response = await fetch(
-            `http://127.0.0.1:5001/api/plans/${planId}/courses`
+            `http://127.0.0.1:5001/api/plans/${planId}/courses` /*,
+            {
+              credentials: "include",
+            } */
           );
           const courses = await response.json();
 
@@ -76,7 +86,6 @@
             } = course;
 
             if (semester !== currentSemester || year !== currentYear) {
-              // New semester block
               semesterBlock = document.createElement("div");
               semesterBlock.classList.add("semester");
               semesterBlock.innerHTML = `<h2>${semester} ${year}</h2>`;

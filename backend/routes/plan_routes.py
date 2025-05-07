@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 from routes.db_operations import query_db
 
 plan_bp = Blueprint('plan_bp', __name__)
@@ -9,15 +9,56 @@ def get_plan_courses(plan_id):
     Retrieve all courses for a given plan_id.
     """
     query = """
-        SELECT c.course_code, c.course_name, c.course_units, 
-               IFNULL(gcm.ge_category_code, 'Major') AS ge_category_code,
-               pc.semester, pc.year
+        SELECT c.course_code, c.course_name, c.course_units,
+            pc.assigned_ge_category AS ge_category_code,
+            pc.semester, pc.year
         FROM plan_courses pc
         JOIN courses c ON pc.course_id = c.id
-        LEFT JOIN ge_course_mappings gcm ON c.id = gcm.course_id
         WHERE pc.plan_id = %s
         ORDER BY pc.year, 
-                 FIELD(pc.semester, 'Fall', 'Winter', 'Spring', 'Summer')
+                FIELD(pc.semester, 'Fall', 'Winter', 'Spring', 'Summer')
     """
+
     courses = query_db(query, (plan_id,))
     return jsonify(courses)
+
+@plan_bp.route('/create', methods=['POST'])
+def create_plan():
+    data = request.get_json()
+    #user_id = session.get('user_id')
+    user_id = 1  # For dev testing only
+
+
+    if not user_id:
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    major_id = data['major']
+    start_semester = data['start_semester']
+    start_year = data['start_year']
+    enrollment_status = data['enrollment_status']
+    available_winter = data['available_winter']
+    available_summer = data['available_summer']
+
+    # Lookup major_id and major_acronym
+    major_info = query_db("SELECT major_name, major_acronym FROM majors WHERE id = %s", (major_id,))
+    if not major_info:
+        return jsonify({'error': 'Major not found'}), 400
+    major_name = major_info[0]['major_name']
+    major_acronym = major_info[0]['major_acronym']
+
+    # Update user preferences
+    query_db("""
+        UPDATE users 
+        SET enrollment_status = %s, available_winter = %s, available_summer = %s 
+        WHERE id = %s
+    """, (enrollment_status, available_winter, available_summer, user_id))
+
+    # Create the plan and generate course plan
+    from create_plan import generate_plan, create_course_plan
+    plan_name = f"{major_name} Plan starting {start_semester}"
+    plan_id = create_course_plan(user_id, plan_name)
+
+    generate_plan(user_id, major_id, major_name, major_acronym, start_semester, start_year, plan_id, include_us_am=False)
+
+
+    return jsonify({'plan_id': plan_id})

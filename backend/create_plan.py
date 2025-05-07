@@ -343,44 +343,45 @@ def select_major_courses(major_id, major_name, major_acronym, user_id):
 ###############################################################################
 def add_courses_to_plan(plan_id, semester, year, courses):
     for course in courses:
+        category = course.get('ge_category_code', 'Major')  # fallback to 'Major' if key is missing
         query_db("""
-            INSERT INTO plan_courses (plan_id, course_id, semester, year)
-            VALUES (%s, %s, %s, %s)
-        """, (plan_id, course['id'], semester, year))
-    # The query_db helper commits automatically for non-SELECT queries.
+            INSERT INTO plan_courses (plan_id, course_id, semester, year, assigned_ge_category)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (plan_id, course['id'], semester, year, category))
+
 
 ###############################################################################
 # Main Plan Generation Function
 ###############################################################################
-def generate_plan(user_id, major_id, major_name, major_acronym, start_semester, start_year, include_us_am=False):
+def generate_plan(user_id, major_id, major_name, major_acronym, start_semester, start_year, plan_id, include_us_am=False):
     prefs = get_user_preferences(user_id)
     if not prefs:
         print("User preferences not found!")
         return
     enrollment = prefs.get('enrollment_status', 'fulltime')
-    include_winter = True
-    include_summer = False
+    include_winter = prefs.get('available_winter', False)
+    include_summer = prefs.get('available_summer', False)
 
-    # Build the semester order list. Base is ["Fall", "Spring"].
-    semesters = ["Fall", "Spring"]
+    # Dynamically build semester list
+    semesters = []
     if include_winter:
-        semesters.insert(1, "Winter")
+        semesters.append("Winter")
+    semesters.append("Spring")
     if include_summer:
         semesters.append("Summer")
-    # Rotate the list so that it starts with start_semester.
-    while semesters[0] != start_semester:
-        semesters.append(semesters.pop(0))
+    semesters.append("Fall")  # Always include Fall
+
+    # Step 2: Set start index based on start_semester
+    current_semester_index = semesters.index(start_semester)
+    semester = semesters[current_semester_index]
+    year = start_year
+
     
     target_units = 12 if enrollment.lower() == "fulltime" else 6
     default_allowed_major_units = target_units / 2
 
     available_ge_cat_codes = get_available_ge_categories(user_id, major_id, include_us_am=include_us_am)
     print("Available GE categories for selection:", available_ge_cat_codes)
-
-    # For plan generation, we will iterate indefinitely until our course-selection logic returns nothing
-    current_semester_index = 0
-    semester = semesters[current_semester_index]
-    year = start_year
 
     while True:
         semester_courses = []
@@ -449,9 +450,11 @@ def generate_plan(user_id, major_id, major_name, major_acronym, start_semester, 
             print(f"{course['course_code']} - {course['course_name']} ({course['course_units']} units) ({category})")
         print("")
 
-        # Rotate to next semester.
+        # Rotate to next semester
         current_semester_index = (current_semester_index + 1) % len(semesters)
         semester = semesters[current_semester_index]
+
+        # If we looped back to the first semester in list, increment year
         if current_semester_index == 0:
             year += 1
 
@@ -477,4 +480,4 @@ if __name__ == '__main__':
         print("Error creating course plan.")
         exit(1)
 
-    generate_plan(user_id, major_id, major_name, major_acronym, start_semester, start_year, include_us_am)
+    generate_plan(user_id, major_id, major_name, major_acronym, start_semester, start_year, plan_id, include_us_am=False)

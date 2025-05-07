@@ -9,8 +9,7 @@ from routes.user_routes import user_bp
 from routes.major_routes import major_bp
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
-
+CORS(app, origins=["http://127.0.0.1:5501"], supports_credentials=True)
 
 # Register Blueprints (Routes)
 app.register_blueprint(auth_bp, url_prefix='/api/auth')
@@ -20,4 +19,4 @@ app.register_blueprint(user_bp, url_prefix='/api/users')
 app.register_blueprint(major_bp,url_prefix='/api/majors')
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5001)
+    app.run(host="0.0.0.0", port=5001, debug=True)
