@@ -52,24 +52,6 @@
           </select>
         </div>
         <div>
-          <label for="start_semester">Start Semester:</label>
-          <select id="start_semester" name="start_semester">
-            <option value="" disabled selected>Select Semester</option>
-            <option value="Fall">Fall</option>
-            <option value="Winter">Winter</option>
-            <option value="Spring">Spring</option>
-            <option value="Summer">Summer</option>
-          </select>
-
-          <label for="start_year">Start Year:</label>
-          <select id="start_year" name="start_year">
-            <option value="" disabled selected>Select Year</option>
-            <option value="2025">2025</option>
-            <option value="2026">2026</option>
-            <option value="2027">2027</option>
-          </select>
-        </div>
-        <div>
           <legend>Select Study Type:</legend>
           <label>
             <input type="radio" name="study-type" value="fulltime" checked />
@@ -90,8 +72,67 @@
             Winter
           </label>
         </div>
+        <div>
+          <label for="start_semester">Start Semester:</label>
+          <select id="start_semester" name="start_semester">
+            <option value="" disabled selected>Select Semester</option>
+            <option value="Fall">Fall</option>
+            <option value="Winter">Winter</option>
+            <option value="Spring">Spring</option>
+            <option value="Summer">Summer</option>
+          </select>
+
+          <label for="start_year">Start Year:</label>
+          <select id="start_year" name="start_year">
+            <option value="" disabled selected>Select Year</option>
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+          </select>
+        </div>
         <button type="submit">Generate Plan</button>
       </form>
+
+      <script>
+        const checkboxes = document.querySelectorAll('input[name="available"]');
+        const startSemesterSelect = document.getElementById("start_semester");
+
+        // Function to update the dropdown options
+        function updateStartSemesterOptions() {
+          // Always include Fall and Spring
+          const fixedSemesters = ["Fall", "Spring"];
+          const dynamicSemesters = Array.from(checkboxes)
+            .filter((checkbox) => checkbox.checked)
+            .map((checkbox) => checkbox.value.charAt(0).toUpperCase() + checkbox.value.slice(1));
+
+          // Clear existing options
+          startSemesterSelect.innerHTML = '<option value="" disabled selected>Select Semester</option>';
+
+          // Add fixed semesters
+          fixedSemesters.forEach((semester) => {
+            const option = document.createElement("option");
+            option.value = semester;
+            option.textContent = semester;
+            startSemesterSelect.appendChild(option);
+          });
+
+          // Add dynamic semesters
+          dynamicSemesters.forEach((semester) => {
+            const option = document.createElement("option");
+            option.value = semester;
+            option.textContent = semester;
+            startSemesterSelect.appendChild(option);
+          });
+        }
+
+        // Add event listeners to checkboxes
+        checkboxes.forEach((checkbox) => {
+          checkbox.addEventListener("change", updateStartSemesterOptions);
+        });
+
+        // Initialize the dropdown with default options
+        updateStartSemesterOptions();
+      </script>
 
       <script>
         document.getElementById("create-plan-form").onsubmit = async function (
